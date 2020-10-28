@@ -209,17 +209,15 @@ long LinuxParser::ActiveJiffies(int pid) {
       // std::cout << i << " " << token << std::endl;
     }
 
-    double total_time = utime + stime + cutime + cstime;
+    long double total_time = utime + stime + cutime + cstime;
     // std::cout << "Total: " << total_time << std::endl;
-    double seconds = LinuxParser::UpTime() - (starttime / sysconf(_SC_CLK_TCK));
+    long double seconds = LinuxParser::UpTime() - (starttime / sysconf(_SC_CLK_TCK));
     // std::cout << "Seconds: " << seconds << std::endl;
-    cpu_usage = (total_time / sysconf(_SC_CLK_TCK)) / seconds;
+    cpu_usage = 100 * ((total_time / sysconf(_SC_CLK_TCK))/seconds);
     // std::cout << "cpu Usage: " << cpu_usage << std::endl;
   }
-  if (cpu_usage < 0)
-    return 0;
-  else
-    return cpu_usage;
+  
+  return cpu_usage;
 }
 
 // TODO: Read and return the number of active jiffies for the system

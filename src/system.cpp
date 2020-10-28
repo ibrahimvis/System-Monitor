@@ -18,7 +18,7 @@ using std::size_t;
 using std::string;
 using std::vector;
 
-bool Compare(Process p1, Process p2) { return p1 < p2; }
+bool Compare(Process p1, Process p2) { return p2 < p1; }
 
 // TODO: Return the system's CPU
 Processor& System::Cpu() {
@@ -29,6 +29,8 @@ Processor& System::Cpu() {
 
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
+  processes_.clear();
+
   vector<int> pids = LinuxParser::Pids();
   for (int pid : pids) {
     Process process =
@@ -37,9 +39,9 @@ vector<Process>& System::Processes() {
                 LinuxParser::UpTime(pid));
     processes_.push_back(process);
   }
-  sort(processes_.begin(), processes_.end(), Compare);
-  processes_.erase(unique(processes_.begin(), processes_.end()),
-                   processes_.end());
+  std::sort(processes_.begin(), processes_.end(), Compare);
+  // processes_.erase(unique(processes_.begin(), processes_.end()),
+  //                  processes_.end());
   return processes_;
 }
 
