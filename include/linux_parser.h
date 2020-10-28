@@ -30,16 +30,17 @@ std::string Kernel();
 // CPU
 enum CPUStates {
   kUser_ = 0,
-  kNice_,
-  kSystem_,
-  kIdle_,
-  kIOwait_,
-  kIRQ_,
-  kSoftIRQ_,
-  kSteal_,
-  kGuest_,
-  kGuestNice_
+  kNice_ = 1,
+  kSystem_ = 2,
+  kIdle_ = 3,
+  kIOwait_ = 4,
+  kIRQ_ = 5,
+  kSoftIRQ_ = 6,
+  kSteal_ = 7,
+  kGuest_ = 8,
+  kGuestNice_ = 9
 };
+
 std::vector<std::string> CpuUtilization();
 long Jiffies();
 long ActiveJiffies();
@@ -52,6 +53,7 @@ std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
+long int CpuUtilization(int pid);
 };  // namespace LinuxParser
 
 #endif
