@@ -22,8 +22,19 @@ bool Compare(Process p1, Process p2) { return p2 < p1; }
 
 // TODO: Return the system's CPU
 Processor& System::Cpu() {
+  cpu_.setPreTotal(LinuxParser::ActiveJiffies());
+  cpu_.setPreIdle(LinuxParser::IdleJiffies());
+  usleep(2000);
   cpu_.setTotal(LinuxParser::ActiveJiffies());
   cpu_.setIdle(LinuxParser::IdleJiffies());
+  
+  auto o = LinuxParser::CpuUtilization();
+  long other = std::stol(o[LinuxParser::kUser_]) + std::stol(o[LinuxParser::kSystem_]);
+  long otherTotal = other + std::stol(o[LinuxParser::kIdle_]);
+
+  cpu_.setOther(other);
+  cpu_.setOtherTotal(otherTotal);
+
   return cpu_;
 }
 

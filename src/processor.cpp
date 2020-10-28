@@ -14,17 +14,50 @@ float Processor::Utilization() {
   // boot X 100
 
   // float total = Idle + nonIdle;
-  float CPU_Percentage = (getTotle() - getIdle()) / getTotle();
 
+  /*
+  PrevIdle = previdle + previowait
+Idle = idle + iowait
+
+PrevNonIdle = prevuser + prevnice + prevsystem + previrq + prevsoftirq + prevsteal
+NonIdle = user + nice + system + irq + softirq + steal
+
+PrevTotal = PrevIdle + PrevNonIdle
+Total = Idle + NonIdle
+
+# differentiate: actual value minus the previous one
+totald = Total - PrevTotal
+idled = Idle - PrevIdle
+
+CPU_Percentage = (totald - idled)/totald
+  */
+
+  // float cpu = (getTotle() - getIdle()) / getTotle();
+  double cpu;
+  double idled  = getIdle() - getPreIdle();
+  double totald = getTotle() - getPreTotal(); 
+
+  cpu = (totald - idled) / totald;
   // if (CPU_Percentage < 0)
   //   CPU_Percentage =  CPU_Percentage * -1;
-  if (CPU_Percentage < 0)
-    return 0;
+  if (cpu < 0)
+    return (float)(getOther())/getOtherTotal();
   else
-    return CPU_Percentage;
+    return (float) cpu;
 }
 
 void Processor::setTotal(long total_) { total = total_; }
 void Processor::setIdle(long idle_) { idle = idle_; }
 long Processor::getIdle() const { return idle; }
 long Processor::getTotle() const { return total; }
+
+void Processor::setPreTotal(long pre) { preTotal = pre; }
+void Processor::setPreIdle(long pre) { preIdle = pre; }
+long Processor::getPreIdle() const { return preIdle; }
+long Processor::getPreTotal() const { return preTotal; }
+
+void Processor::setOther(long other) { otherWay = other; }
+long Processor::getOther() const { return otherWay; }
+
+void Processor::setOtherTotal(long other) { otherTotal = other; }
+long Processor::getOtherTotal() const { return otherTotal; }

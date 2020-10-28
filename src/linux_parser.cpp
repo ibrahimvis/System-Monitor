@@ -163,7 +163,7 @@ long LinuxParser::Jiffies() {
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid) {
   string line;
-  long cpu_usage;
+  float cpu_usage;
 
   std::ifstream file(kProcDirectory + to_string(pid) + kStatFilename);
   if (file.is_open()) {
@@ -209,11 +209,11 @@ long LinuxParser::ActiveJiffies(int pid) {
       // std::cout << i << " " << token << std::endl;
     }
 
-    long double total_time = utime + stime + cutime + cstime;
+    float total_time = utime + stime + cutime + cstime;
     // std::cout << "Total: " << total_time << std::endl;
-    long double seconds = LinuxParser::UpTime() - (starttime / sysconf(_SC_CLK_TCK));
+    float seconds = LinuxParser::UpTime() - (starttime / sysconf(_SC_CLK_TCK));
     // std::cout << "Seconds: " << seconds << std::endl;
-    cpu_usage = 100 * ((total_time / sysconf(_SC_CLK_TCK))/seconds);
+    cpu_usage = 100 * ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
     // std::cout << "cpu Usage: " << cpu_usage << std::endl;
   }
   

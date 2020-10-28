@@ -4,13 +4,28 @@
 class Processor {
  public:
   float Utilization();  // TODO: See src/processor.cpp
+  
   void setTotal(long total_);
   void setIdle(long idle_);
   long getIdle() const;
   long getTotle() const;
 
+  void setPreTotal(long pre);
+  void setPreIdle(long pre);
+  long getPreTotal() const;
+  long getPreIdle() const;
+
+  void setOther(long other);
+  long getOther() const;
+  void setOtherTotal(long other);
+  long getOtherTotal() const;
+
   // TODO: Declare any necessary private members
  private:
+  long otherWay;
+  long otherTotal;  
+  long preTotal;
+  long preIdle;
   long total;
   long idle;
 };
