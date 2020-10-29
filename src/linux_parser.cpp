@@ -93,9 +93,9 @@ float LinuxParser::MemoryUtilization() {
 
         switch (key[0]) {
           case 'M':
-            if (key == "MemTotal") {
+            if (key == filterMemTotalString) {
               totalMem = stof(value);
-            } else if (key == "MemFree") {
+            } else if (key == filterMemFreeString) {
               freeMem = stof(value);
             }
             break;
@@ -105,15 +105,15 @@ float LinuxParser::MemoryUtilization() {
           //   }
           //   break;
           case 'C':
-            if (key == "Cached") {
+            if (key == filterCachedString) {
               cachedMem = stof(value);
             }
             break;
           case 'S':
-            if (key == "Shmem") {
+            if (key == filterShmemString) {
               shmem = stof(value);
             }
-            if (key == "SReclaimable") {
+            if (key == filterSRecString) {
               sreclaimable = stof(value);
             }
             break;
@@ -150,7 +150,7 @@ long LinuxParser::UpTime() {
 
 // TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() {
-  vector<string> jiffies = LinuxParser::CpuUtilization();
+  vector<string> jiffies = CpuUtilization();
   long total = 0;
   for (string jiff : jiffies) {
     total += std::stoi(jiff);
@@ -211,7 +211,7 @@ long LinuxParser::ActiveJiffies(int pid) {
 
     float total_time = utime + stime + cutime + cstime;
     // std::cout << "Total: " << total_time << std::endl;
-    float seconds = LinuxParser::UpTime() - (starttime / sysconf(_SC_CLK_TCK));
+    float seconds = UpTime() - (starttime / sysconf(_SC_CLK_TCK));
     // std::cout << "Seconds: " << seconds << std::endl;
     cpu_usage = 100 * ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
     // std::cout << "cpu Usage: " << cpu_usage << std::endl;
@@ -222,7 +222,7 @@ long LinuxParser::ActiveJiffies(int pid) {
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() {
-  vector<string> jiffies = LinuxParser::CpuUtilization();
+  vector<string> jiffies = CpuUtilization();
   long total = 0;
   for (int i = 0; i < 8; i++) {
     if (i != kIdle_ && i != kIOwait_) total += std::stol(jiffies[i]);
@@ -233,7 +233,7 @@ long LinuxParser::ActiveJiffies() {
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() {
-  vector<string> jiffies = LinuxParser::CpuUtilization();
+  vector<string> jiffies = CpuUtilization();
   long idle = std::stol(jiffies[kIdle_]) + std::stol(jiffies[kIOwait_]);
 
   return idle;
@@ -273,7 +273,7 @@ int LinuxParser::TotalProcesses() {
       std::istringstream line_s(line);
 
       while (line_s >> key >> value) {
-        if (key == "processes") {
+        if (key == filterProcesses) {
           totalProcesses = stof(value);
         }
       }
@@ -295,7 +295,7 @@ int LinuxParser::RunningProcesses() {
       std::istringstream line_s(line);
 
       while (line_s >> key >> value) {
-        if (key == "procs_running") {
+        if (key == filterRunningProcesses) {
           runningProcesses = stof(value);
         }
       }
@@ -328,7 +328,7 @@ string LinuxParser::Ram(int pid) {
     std::istringstream linestream(line);
 
     linestream >> key >> value;
-    if (key == "VmSize:") {
+    if (key == filterProcMem) {
       value = to_string(std::stol(value) / 1000);
       break;
     }
