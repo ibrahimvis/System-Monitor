@@ -10,7 +10,7 @@ double Processor::Utilization() {
   cpu = (totald - idled) / totald;
 
   if (cpu < 0) {
-    cpu = getOther() / getOtherTotal();
+    cpu = 0;//getOther() / getOtherTotal();
     return cpu;
   }
   else
