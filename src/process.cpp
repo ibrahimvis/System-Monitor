@@ -32,4 +32,6 @@ bool Process::operator<(Process const& a) const {
   return cpuUtilz < a.cpuUtilz;
 }
 
-bool Process::operator==(Process const& a) const { return pid == a.pid; }
+bool Process::operator>(Process const& a) const {
+  return cpuUtilz > a.cpuUtilz;
+}

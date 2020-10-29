@@ -24,6 +24,7 @@ class Process {
   long int UpTime();                       
   bool operator<(Process const& a) const;  
   bool operator==(Process const& a) const;
+  bool operator>(Process const& a) const;
 
 
  private:

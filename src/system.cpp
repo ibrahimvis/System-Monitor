@@ -18,7 +18,7 @@ using std::size_t;
 using std::string;
 using std::vector;
 
-bool Compare(Process p1, Process p2) { return p2 < p1; }
+bool Compare(Process p1, Process p2) { return p1 > p2; }
 
 Processor& System::Cpu() {
   cpu_.setPreTotal(LinuxParser::ActiveJiffies());
