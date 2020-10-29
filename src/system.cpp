@@ -48,7 +48,7 @@ vector<Process>& System::Processes() {
         Process(pid, LinuxParser::User(pid), LinuxParser::Command(pid),
                 LinuxParser::ActiveJiffies(pid), LinuxParser::Ram(pid),
                 LinuxParser::UpTime(pid));
-    processes_.push_back(process);
+    processes_.emplace_back(process);
   }
   std::sort(processes_.begin(), processes_.end(), Compare);
   // processes_.erase(unique(processes_.begin(), processes_.end()),

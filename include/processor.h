@@ -3,7 +3,7 @@
 
 class Processor {
  public:
-  double Utilization();  // TODO: See src/processor.cpp
+  double Utilization(); 
   
   void setTotal(long total_);
   void setIdle(long idle_);
