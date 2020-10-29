@@ -210,7 +210,10 @@ long LinuxParser::ActiveJiffies(int pid) {
 
   file.close();
 
-  return cpu_usage;
+  if (cpu_usage < 0)
+    return 0;
+  else 
+    return cpu_usage;
 }
 
 long LinuxParser::ActiveJiffies() {
