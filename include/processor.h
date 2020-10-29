@@ -3,7 +3,7 @@
 
 class Processor {
  public:
-  float Utilization();  // TODO: See src/processor.cpp
+  double Utilization();  // TODO: See src/processor.cpp
   
   void setTotal(long total_);
   void setIdle(long idle_);
@@ -20,7 +20,6 @@ class Processor {
   void setOtherTotal(long other);
   long getOtherTotal() const;
 
-  // TODO: Declare any necessary private members
  private:
   long otherWay;
   long otherTotal;  
