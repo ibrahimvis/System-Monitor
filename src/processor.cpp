@@ -1,20 +1,21 @@
 #include "processor.h"
 
-
 double Processor::Utilization() {
+  try {
+    double cpu;
+    double idled = getIdle() - getPreIdle();
+    double totald = getTotle() - getPreTotal();
 
-  double cpu;
-  double idled  = getIdle() - getPreIdle();
-  double totald = getTotle() - getPreTotal(); 
+    cpu = (totald - idled) / totald;
 
-  cpu = (totald - idled) / totald;
-
-  if (cpu < 0) {
-    cpu = 0;//getOther() / getOtherTotal();
-    return cpu;
+    if (cpu < 0) {
+      cpu = getOther() / getOtherTotal();
+      return cpu;
+    } else
+      return cpu;
+  } catch (...) {
+    return 0.0;
   }
-  else
-    return cpu;
 }
 
 void Processor::setTotal(long total_) { total = total_; }
