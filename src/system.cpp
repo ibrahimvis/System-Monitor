@@ -21,9 +21,9 @@ using std::vector;
 bool Compare(Process p1, Process p2) { return p1 > p2; }
 
 Processor& System::Cpu() {
-  cpu_.setPreTotal(LinuxParser::ActiveJiffies());
-  cpu_.setPreIdle(LinuxParser::IdleJiffies());
-  usleep(2000);
+  // cpu_.setPreTotal(LinuxParser::ActiveJiffies());
+  // cpu_.setPreIdle(LinuxParser::IdleJiffies());
+  // usleep(2000);
   cpu_.setTotal(LinuxParser::ActiveJiffies());
   cpu_.setIdle(LinuxParser::IdleJiffies());
   

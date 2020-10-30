@@ -3,8 +3,8 @@
 double Processor::Utilization() {
   try {
     double cpu;
-    double idled = getIdle() - getPreIdle();
-    double totald = getTotle() - getPreTotal();
+    double idled = getIdle();// - getPreIdle();
+    double totald = getTotle();// - getPreTotal();
 
     cpu = (totald - idled) / totald;
 
